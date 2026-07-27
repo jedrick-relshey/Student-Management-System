@@ -6,7 +6,6 @@
 
 students = []
 
-
 # ==========================================================
 # MAIN MENU
 # ==========================================================
@@ -49,7 +48,6 @@ def main_menu():
             break
         else:
             print("\nInvalid menu choice.")
-
 
 # ==========================================================
 # VALIDATIONS
@@ -111,15 +109,12 @@ def validate_course():
 def validate_section():
 
     while True:
-
         section = input("Section: ").strip().upper()
 
         if section == "":
             print("Section is required.")
             continue
-
         return section
-
 
 def validate_grade():
     while True:
@@ -156,7 +151,6 @@ def add_student():
     print("\nStudent record added successfully!")
     input("\nPress Enter to continue...")
 
-
 def view_students():
     print("\n"+"="*100)
     print("STUDENT RECORDS")
@@ -172,14 +166,12 @@ def view_students():
             print(f"{s['id']:<12}{name:<35}{s['course']:<12}{s['section']:<10}{s['grade']:<8.2f}{remarks}")
     input("\nPress Enter to continue...")
 
-
 def display_student(student):
     print("="*55)
     for k,v in [("Student ID",student["id"]),("Last Name",student["last_name"]),("First Name",student["first_name"]),("Middle Name",student["middle_name"]),("Course",student["course"]),("Section",student["section"]),("Final Grade",student["grade"])]:
         print(f"{k:<13}: {v}")
     print(f"Remarks      : {'PASS' if student['grade']>=75 else 'FAIL'}")
     print("="*55)
-
 
 def search_student():
     c=input("[1] ID\n[2] Last Name\nChoice: ")
@@ -196,7 +188,6 @@ def search_student():
                 display_student(s); found=True
     if not found: print("Student Record Not Found")
     input("\nPress Enter to continue...")
-
 
 def update_student():
     sid=input("Enter Student ID: ").strip()
@@ -215,7 +206,6 @@ def update_student():
     print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
-
 def delete_student():
     sid=input("Enter Student ID: ").strip()
     for s in students:
@@ -230,7 +220,6 @@ def delete_student():
             return
     print("Student Record Not Found")
     input("\nPress Enter to continue...")
-
 
 def display_statistics():
     if not students:
