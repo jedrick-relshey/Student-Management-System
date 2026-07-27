@@ -170,276 +170,118 @@ def validate_grade():
             print("Numeric values only.")
 
 
+
 # ==========================================================
 # ADD STUDENT
 # ==========================================================
 
 def add_student():
-
     print("\n" + "=" * 55)
     print("ADD STUDENT RECORD")
     print("=" * 55)
 
-    if len(students) == 0:
-        print("No student records found.")
-        input("\nPress Enter to continue...")
-        return
-
-    print(f"{'ID':<12}{'NAME':<35}{'COURSE':<12}{'SECTION':<10}{'GRADE':<10}{'REMARKS'}")
-    print("-" * 100)
-
-    for student in students:
-
-        fullname = f"{student['last_name']}, {student['first_name']}"
-
-        if student["middle_name"] != "":
-            fullname += f" {student['middle_name']}"
-
-        if student["grade"] >= 75:
-            remarks = "PASS"
-        else:
-            remarks = "FAIL"
-
-        print(
-            f"{student['id']:<12}"
-            f"{fullname:<35}"
-            f"{student['course']:<12}"
-            f"{student['section']:<10}"
-            f"{student['grade']:<10.2f}"
-            f"{remarks}"
-        )
-
-    input("\nPress Enter to continue...")
-
-
-# ==========================================================
-# SEARCH STUDENT
-# ==========================================================
-
-def search_student():
-    print("\n" + "=" * 55)
-    print("SEARCH STUDENT")
-    print("=" * 55)
-
-    print("[1] Search by Student ID")
-    print("[2] Search by Last Name")
-
-    choice = input("Enter choice: ")
-
-    found = False
-
-    if choice == "1":
-
-        search_id = input("Enter Student ID: ").strip()
-
-        for student in students:
-
-            if student["id"] == search_id:
-                display_student(student)
-
-                found = True
-                break
-
-    elif choice == "2":
-
-        search_name = input("Enter Last Name: ").strip().lower()
-
-        for student in students:
-
-            if student["last_name"].lower() == search_name:
-                display_student(student)
-
-                found = True
-
-    else:
-
-        print("Invalid choice.")
-        input("\nPress Enter to continue...")
-        return
-
-    if not found:
-        print("\nStudent Record Not Found")
-
-    input("\nPress Enter to continue...")
-
-
-# ==========================================================
-# DISPLAY SINGLE STUDENT
-# ==========================================================
-
-def display_student(student):
-    print("\n" + "=" * 55)
-
-    print(f"Student ID   : {student['id']}")
-    print(f"Last Name    : {student['last_name']}")
-    print(f"First Name   : {student['first_name']}")
-    print(f"Middle Name  : {student['middle_name']}")
-    print(f"Course       : {student['course']}")
-    print(f"Section      : {student['section']}")
-    print(f"Final Grade  : {student['grade']}")
-
-    student_id = input("Enter Student ID: ").strip()
-
-    for student in students:
-
-        if student["id"] == student_id:
-            print("\nCurrent Student Information")
-            display_student(student)
-
-            print("\nEnter New Information")
-
-            student["last_name"] = validate_name("Last Name: ")
-            student["first_name"] = validate_name("First Name: ")
-            student["middle_name"] = validate_name(
-                "Middle Name (Optional): ",
-                required=False
-            )
-            student["course"] = validate_course()
-            student["section"] = validate_section()
-            student["grade"] = validate_grade()
-
-            print("\nStudent record updated successfully!")
-
-            input("\nPress Enter to continue...")
-            return
-
-    print("\nStudent Record Not Found")
-    input("\nPress Enter to continue...")
-
-
-# ==========================================================
-# DELETE STUDENT RECORD
-# ==========================================================
-
-def delete_student():
-    print("\n" + "=" * 55)
-    print("DELETE STUDENT RECORD")
-    print("=" * 55)
-
-    student_id = input("Enter Student ID: ").strip()
-
-    for student in students:
-
-        if student["id"] == student_id:
-
-            print("\nStudent Information")
-            display_student(student)
-
-            confirm = input("\nDelete this record? (Y/N): ").upper()
-
-            if confirm == "Y":
-
-                students.remove(student)
-
-                print("\nStudent record deleted successfully!")
-
-            else:
-
-                print("\nDelete cancelled.")
-
-            input("\nPress Enter to continue...")
-            return
-
-    print("\nStudent Record Not Found")
-    input("\nPress Enter to continue...")
-
-    if student["grade"] >= 75:
-        print("Remarks      : PASS")
-    else:
-        print("Remarks      : FAIL")
-
-    print("=" * 55)
-
-    student_id = validate_student_id()
-
-    last_name = validate_name("Last Name: ")
-
-    first_name = validate_name("First Name: ")
-
-    middle_name = validate_name(
-        "Middle Name (Optional): ",
-        required=False
-    )
-
-    course = validate_course()
-
-    section = validate_section()
-
-    grade = validate_grade()
-
     student = {
-
-        "id": student_id,
-        "last_name": last_name,
-        "first_name": first_name,
-        "middle_name": middle_name,
-        "course": course,
-        "section": section,
-        "grade": grade
-
+        "id": validate_student_id(),
+        "last_name": validate_name("Last Name: "),
+        "first_name": validate_name("First Name: "),
+        "middle_name": validate_name("Middle Name (Optional): ", required=False),
+        "course": validate_course(),
+        "section": validate_section(),
+        "grade": validate_grade()
     }
 
     students.append(student)
-
     students.sort(key=lambda x: x["id"])
-
     print("\nStudent record added successfully!")
-
     input("\nPress Enter to continue...")
 
-# ==========================================================
-# DISPLAY CLASS STATISTICS
-# ==========================================================
+
+def view_students():
+    print("\n"+"="*100)
+    print("STUDENT RECORDS")
+    print("="*100)
+    if not students:
+        print("No student records found.")
+    else:
+        print(f"{'ID':<12}{'NAME':<35}{'COURSE':<12}{'SECTION':<10}{'GRADE':<8}REMARKS")
+        print("-"*100)
+        for s in students:
+            name=f"{s['last_name']}, {s['first_name']} {s['middle_name']}".strip()
+            remarks="PASS" if s["grade"]>=75 else "FAIL"
+            print(f"{s['id']:<12}{name:<35}{s['course']:<12}{s['section']:<10}{s['grade']:<8.2f}{remarks}")
+    input("\nPress Enter to continue...")
+
+
+def display_student(student):
+    print("="*55)
+    for k,v in [("Student ID",student["id"]),("Last Name",student["last_name"]),("First Name",student["first_name"]),("Middle Name",student["middle_name"]),("Course",student["course"]),("Section",student["section"]),("Final Grade",student["grade"])]:
+        print(f"{k:<13}: {v}")
+    print(f"Remarks      : {'PASS' if student['grade']>=75 else 'FAIL'}")
+    print("="*55)
+
+
+def search_student():
+    c=input("[1] ID\n[2] Last Name\nChoice: ")
+    found=False
+    if c=="1":
+        key=input("Enter Student ID: ").strip()
+        for s in students:
+            if s["id"]==key:
+                display_student(s); found=True; break
+    elif c=="2":
+        key=input("Enter Last Name: ").strip().lower()
+        for s in students:
+            if s["last_name"].lower()==key:
+                display_student(s); found=True
+    if not found: print("Student Record Not Found")
+    input("\nPress Enter to continue...")
+
+
+def update_student():
+    sid=input("Enter Student ID: ").strip()
+    for s in students:
+        if s["id"]==sid:
+            display_student(s)
+            s["last_name"]=validate_name("Last Name: ")
+            s["first_name"]=validate_name("First Name: ")
+            s["middle_name"]=validate_name("Middle Name (Optional): ",required=False)
+            s["course"]=validate_course()
+            s["section"]=validate_section()
+            s["grade"]=validate_grade()
+            print("Updated successfully.")
+            input("\nPress Enter to continue...")
+            return
+    print("Student Record Not Found")
+    input("\nPress Enter to continue...")
+
+
+def delete_student():
+    sid=input("Enter Student ID: ").strip()
+    for s in students:
+        if s["id"]==sid:
+            display_student(s)
+            if input("Delete this record? (Y/N): ").upper()=="Y":
+                students.remove(s)
+                print("Deleted.")
+            else:
+                print("Cancelled.")
+            input("\nPress Enter to continue...")
+            return
+    print("Student Record Not Found")
+    input("\nPress Enter to continue...")
+
 
 def display_statistics():
-
-    print("\n" + "=" * 55)
-    print("CLASS STATISTICS")
-    print("=" * 55)
-
-    if len(students) == 0:
+    if not students:
         print("No student records found.")
-        input("\nPress Enter to continue...")
-        return
-
-    highest = students[0]["grade"]
-    lowest = students[0]["grade"]
-
-    total_grade = 0
-    passed = 0
-    failed = 0
-
-    for student in students:
-
-        grade = student["grade"]
-
-        total_grade += grade
-
-        if grade > highest:
-            highest = grade
-
-        if grade < lowest:
-            lowest = grade
-
-        if grade >= 75:
-            passed += 1
-        else:
-            failed += 1
-
-    average = total_grade / len(students)
-
-    print(f"Total Number of Students : {len(students)}")
-    print(f"Highest Grade           : {highest:.2f}")
-    print(f"Lowest Grade            : {lowest:.2f}")
-    print(f"Average Grade           : {average:.2f}")
-    print(f"Passed Students         : {passed}")
-    print(f"Failed Students         : {failed}")
-
+    else:
+        grades=[s["grade"] for s in students]
+        print(f"Total Number of Students : {len(students)}")
+        print(f"Highest Grade            : {max(grades):.2f}")
+        print(f"Lowest Grade             : {min(grades):.2f}")
+        print(f"Average Grade            : {sum(grades)/len(grades):.2f}")
+        print(f"Passed Students          : {sum(g>=75 for g in grades)}")
+        print(f"Failed Students          : {sum(g<75 for g in grades)}")
     input("\nPress Enter to continue...")
 
-# ==========================================================
-# START PROGRAM
-# ==========================================================
-
 main_menu()
-
