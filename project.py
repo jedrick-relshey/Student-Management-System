@@ -29,39 +29,24 @@ def main_menu():
 
         if choice == "1":
             add_student()
-
         elif choice == "2":
             view_students()
-
         elif choice == "3":
             search_student()
-
         elif choice == "4":
-
             update_student()
-
         elif choice == "5":
-
             delete_student()
-
         elif choice == "6":
-
             display_statistics()
 
         elif choice == "7":
-
             print("\n========================================")
-
             print(" Thank you for using the system!")
-
             print(" Student Record Management System")
-
             print(" Goodbye!")
-
             print("========================================")
-
             break
-
         else:
             print("\nInvalid menu choice.")
 
@@ -71,9 +56,7 @@ def main_menu():
 # ==========================================================
 
 def validate_student_id():
-
     while True:
-
         student_id = input("Student ID (9 digits): ").strip()
 
         if not student_id.isdigit():
@@ -94,27 +77,20 @@ def validate_student_id():
         if duplicate:
             print("Student ID already exists.")
             continue
-
         return student_id
 
 
 def validate_name(message, required=True):
-
     while True:
-
         name = input(message).strip()
-
         if required and name == "":
             print("This field is required.")
             continue
-
         if name == "":
             return ""
-
         valid = True
 
         for letter in name:
-
             if not (letter.isalpha() or letter == " "):
                 valid = False
                 break
@@ -122,22 +98,15 @@ def validate_name(message, required=True):
         if not valid:
             print("Letters and spaces only.")
             continue
-
         return name.title()
 
-
 def validate_course():
-
     while True:
-
         course = input("Course: ").strip().upper()
-
         if course == "":
             print("Course is required.")
             continue
-
         return course
-
 
 def validate_section():
 
@@ -153,23 +122,15 @@ def validate_section():
 
 
 def validate_grade():
-
     while True:
-
         try:
-
             grade = float(input("Final Grade: "))
-
             if grade < 0 or grade > 100:
                 print("Grade must be from 0 to 100.")
                 continue
-
             return grade
-
         except ValueError:
             print("Numeric values only.")
-
-
 
 # ==========================================================
 # ADD STUDENT
