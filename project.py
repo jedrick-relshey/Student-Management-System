@@ -2,6 +2,12 @@
 # STUDENT RECORD MANAGEMENT SYSTEM
 # IT 31 - Data Structures and Algorithm
 # Prelims Performance Task
+# Programmer Timothy Vrent
+# Members
+# Jedrick Relshey Miclat
+# chris Ivan Vital Tolentino
+#
+
 # ==========================================================
 
 students = []
@@ -10,7 +16,10 @@ students = []
 # MAIN MENU
 # ==========================================================
 
+#Display the Main Menu at allows the user to choose.
 def main_menu():
+
+    #Eto naman yung loop para sa mga menu.
     while True:
         print("\n" + "=" * 55)
         print("      STUDENT RECORD MANAGEMENT SYSTEM")
