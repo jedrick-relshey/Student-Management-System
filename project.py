@@ -64,7 +64,6 @@ def main_menu():
 
 #Validate the Student ID by user
 def validate_student_id():
-
     #Keep asking until a valid Student ID is entered.
     while True:
         # Get Student ID Form the User.
@@ -122,8 +121,10 @@ def validate_name(message, required=True):
         return name.title()
 
 def validate_course():
+    #Asking until the user enter Course.
     while True:
         course = input("Course: ").strip().upper()
+        #Check if the user input a valid Course if not then print the "Course is required."
         if course == "":
             print("Course is required.")
             continue
