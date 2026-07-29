@@ -2,11 +2,11 @@
 # STUDENT RECORD MANAGEMENT SYSTEM
 # IT 31 - Data Structures and Algorithm
 # Prelims Performance Task
-# Programmer Diaz, Timothy Vrent A
+# Programmer Timothy Vrent A Diaz
 # Members
-# Jedrick Relshey Miclat
+# Jedrick Relshey C Miclat
 # chris Ivan Vital Tolentino
-#
+# Derek Emmanuel R. Miclat
 
 # ==========================================================
 
@@ -103,6 +103,7 @@ def validate_name(message, required=True):
         #Allow the empty value id ang field is optional.
         if name == "":
             return ""
+
         # Flag to check if the name is valid
         valid = True
 
@@ -122,6 +123,7 @@ def validate_course():
     #ASking until the user enter Course.
     while True:
         course = input("Course: ").strip().upper()
+
         #Check if the user input a valid Course if not then print the "Course is required."
         if course == "":
             print("Course is required.")
@@ -133,6 +135,7 @@ def validate_section():
     #Asking the user to input a Section.
     while True:
         section = input("Section: ").strip().upper()
+
         #If User didn't input a Section show this program
         if section == "":
             print("Section is required.")
@@ -203,7 +206,6 @@ def view_students():
     #Check if there are available student record if not then print then message.
     if not students:
         print("No student records found.")
-
     else:
         print(f"{'ID':<12}{'NAME':<35}{'COURSE':<12}{'SECTION':<10}{'GRADE':<8}REMARKS")
         print("-"*100)
@@ -259,50 +261,75 @@ def search_student():
                 display_student(s)
                 found=True
 
+    #If not match then display this program.
     if not found: print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
+# Update existing student record using the Student ID.
 def update_student():
+    #Get the student ID of the record Upload.
     sid=input("Enter Student ID: ").strip()
+
+    #Search for the matching student record.
     for s in students:
         if s["id"]==sid:
+            # Display student information before updating
             display_student(s)
+            #Update the student information using the valid input of this code.
             s["last_name"]=validate_name("Last Name: ")
             s["first_name"]=validate_name("First Name: ")
             s["middle_name"]=validate_name("Middle Name (Optional): ",required=False)
             s["course"]=validate_course()
             s["section"]=validate_section()
             s["grade"]=validate_grade()
+
             print("Updated successfully.")
             input("\nPress Enter to continue...")
             return
+
+    # Display error message if no record matches the ID
     print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
+# Delete student record from the system.
 def delete_student():
+    #Get the Student Id to the record to remove.
     sid=input("Enter Student ID: ").strip()
+
+    #Search for the student record.
     for s in students:
         if s["id"]==sid:
+            # Show the record before deletion
             display_student(s)
-            if input("Delete this record? (Y/N): ").upper()=="Y":
+            #asking the user to remove the record info
+            if input("Delete this record? (Yes/No): ").lower()=="yes":
                 students.remove(s)
                 print("Deleted.")
             else:
                 print("Cancelled.")
             input("\nPress Enter to continue...")
             return
+
+    # Display error message if student is not found
     print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
+# Calculate and display class performance statistics.
 def display_statistics():
+    # Check if there are available student sa records
     if not students:
         print("No student records found.")
     else:
+        # Create a list containing all student grades
         grades=[s["grade"] for s in students]
+
+        # Display calculated statistics
         print(f"Total Number of Students : {len(students)}")
         print(f"Highest Grade            : {max(grades):.2f}")
         print(f"Lowest Grade             : {min(grades):.2f}")
         print(f"Average Grade            : {sum(grades)/len(grades):.2f}")
+
+        # Count students based on passing grade
         print(f"Passed Students          : {sum(g>=75 for g in grades)}")
         print(f"Failed Students          : {sum(g<75 for g in grades)}")
     input("\nPress Enter to continue...")
