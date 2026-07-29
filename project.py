@@ -22,7 +22,7 @@ def main_menu():
     #Eto naman yung loop para sa mga menu.
     while True:
         print("\n" + "=" * 55)
-        print("      STUDENT RECORD MANAGEMENT SYSTEM")
+        print("           STUDENT RECORD MANAGEMENT SYSTEM")
         print("=" * 55)
         print("[1] Add Student Record")
         print("[2] View Student Records")
@@ -51,7 +51,7 @@ def main_menu():
             display_statistics()
 
         elif choice == "7":
-            print("\n========================================================")
+            print("\n==========================================================")
             print(" Thank you for using the Student Record Management System!")
             print("==========================================================")
             break
@@ -114,19 +114,30 @@ def validate_name(message, required=True):
                 break
 
         if not valid:
-            print("Letters and spaces only.")
+            print("Letters only.")
             continue
         # Return the name with proper capitalization
         return name.title()
 
 def validate_course():
-    #ASking until the user enter Course.
+    # Asking until the user enters a valid Course.
     while True:
         course = input("Course: ").strip().upper()
 
-        #Check if the user input a valid Course if not then print the "Course is required."
+        # Check if the course field is empty
         if course == "":
             print("Course is required.")
+            continue
+
+        # Check if the course contains only letters and spaces
+        valid = True
+        for letter in course:
+            if not (letter.isalpha() or letter == " "):
+                valid = False
+                break
+
+        if not valid:
+            print("Invalid course name. Please try again.")
             continue
 
         return course
@@ -302,9 +313,9 @@ def delete_student():
             # Show the record before deletion
             display_student(s)
             #asking the user to remove the record info
-            if input("Delete this record? (Yes/No): ").lower()=="yes":
+            if input("Are you sure you want to delete this record? (Yes/No): ").lower()=="yes":
                 students.remove(s)
-                print("Deleted.")
+                print("Successfully deleted.")
             else:
                 print("Cancelled.")
             input("\nPress Enter to continue...")
