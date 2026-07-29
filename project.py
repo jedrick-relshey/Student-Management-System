@@ -93,17 +93,23 @@ def validate_student_id():
             continue
         return student_id
 
-
+# Validate the name entered by the user
 def validate_name(message, required=True):
+    # Asking until a valid name is entered
     while True:
+        #Get user input.
         name = input(message).strip()
         if required and name == "":
             print("This field is required.")
             continue
+
+        #Allow the empty value id ang field is optional.
         if name == "":
             return ""
+        # Flag to check if the name is valid
         valid = True
 
+        #Allow only letter and space
         for letter in name:
             if not (letter.isalpha() or letter == " "):
                 valid = False
@@ -112,6 +118,7 @@ def validate_name(message, required=True):
         if not valid:
             print("Letters and spaces only.")
             continue
+        # Return the name with proper capitalization
         return name.title()
 
 def validate_course():
