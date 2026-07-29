@@ -2,7 +2,7 @@
 # STUDENT RECORD MANAGEMENT SYSTEM
 # IT 31 - Data Structures and Algorithm
 # Prelims Performance Task
-# Programmer Timothy Vrent
+# Programmer Diaz, Timothy Vrent A
 # Members
 # Jedrick Relshey Miclat
 # chris Ivan Vital Tolentino
@@ -33,8 +33,10 @@ def main_menu():
         print("[7] Exit")
         print("=" * 55)
 
+        #Input para sa pag pili ng user sa main menu.
         choice = input("Enter your choice: ")
 
+        #If and elif statement para i call ang choice Variable form 1 to 7.
         if choice == "1":
             add_student()
         elif choice == "2":
@@ -58,22 +60,27 @@ def main_menu():
         else:
             print("\nInvalid menu choice.")
 
-# ==========================================================
 # VALIDATIONS
-# ==========================================================
 
+#Validate the Student ID by user
 def validate_student_id():
+
+    #Keep asking until a valid Student ID is entered.
     while True:
+        # Get Student ID Form the User.
         student_id = input("Student ID (9 digits): ").strip()
 
+        #Check if the user input numbers only.
         if not student_id.isdigit():
             print("Student ID must contain numbers only.")
             continue
 
+        #Check if yung Student ID is 9 Digit.
         if len(student_id) != 9:
             print("Student ID must be exactly 9 digits.")
             continue
 
+        #Check if Student ID is already Exists. If yes then print the "Student ID is already exists."
         duplicate = False
 
         for student in students:
@@ -82,7 +89,7 @@ def validate_student_id():
                 break
 
         if duplicate:
-            print("Student ID already exists.")
+            print("Student ID is already exists.")
             continue
         return student_id
 
