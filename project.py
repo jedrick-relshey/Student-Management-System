@@ -51,11 +51,9 @@ def main_menu():
             display_statistics()
 
         elif choice == "7":
-            print("\n========================================")
-            print(" Thank you for using the system!")
-            print(" Student Record Management System")
-            print(" Goodbye!")
-            print("========================================")
+            print("\n========================================================")
+            print(" Thank you for using the Student Record Management System!")
+            print("==========================================================")
             break
         else:
             print("\nInvalid menu choice.")
@@ -121,33 +119,40 @@ def validate_name(message, required=True):
         return name.title()
 
 def validate_course():
-    #Asking until the user enter Course.
+    #ASking until the user enter Course.
     while True:
         course = input("Course: ").strip().upper()
         #Check if the user input a valid Course if not then print the "Course is required."
         if course == "":
             print("Course is required.")
             continue
+
         return course
 
 def validate_section():
-
+    #Asking the user to input a Section.
     while True:
         section = input("Section: ").strip().upper()
-
+        #If User didn't input a Section show this program
         if section == "":
             print("Section is required.")
             continue
+
         return section
 
+# Validate the final grade entered by the user
 def validate_grade():
+    # Return a valid grade between 0 and 100.
     while True:
         try:
             grade = float(input("Final Grade: "))
+
             if grade < 0 or grade > 100:
                 print("Grade must be from 0 to 100.")
                 continue
+
             return grade
+
         except ValueError:
             print("Numeric values only.")
 
@@ -155,61 +160,105 @@ def validate_grade():
 # ADD STUDENT
 # ==========================================================
 
+# Collects and validates student information before saving it.
 def add_student():
+
+    #Disple the add student Record Header
     print("\n" + "=" * 55)
     print("ADD STUDENT RECORD")
     print("=" * 55)
 
+    # Create a dictionary containing the student information
     student = {
+
+        #Get and validate the student Id
         "id": validate_student_id(),
+
+        #Get and validate the student name details.
         "last_name": validate_name("Last Name: "),
         "first_name": validate_name("First Name: "),
         "middle_name": validate_name("Middle Name (Optional): ", required=False),
+
+        # Get and validate the student course, section, and grade
         "course": validate_course(),
         "section": validate_section(),
         "grade": validate_grade()
     }
 
+    #adding a new student record to the Student list.
     students.append(student)
+    # Sort student records by Student ID
     students.sort(key=lambda x: x["id"])
+    # Display confirmation message after successful addition
     print("\nStudent record added successfully!")
+    # Pause the program until the user presses Enter
     input("\nPress Enter to continue...")
 
+# Display all student records with their details and academic remarks.
 def view_students():
     print("\n"+"="*100)
     print("STUDENT RECORDS")
     print("="*100)
+
+    #Check if there are available student record if not then print then message.
     if not students:
         print("No student records found.")
+
     else:
         print(f"{'ID':<12}{'NAME':<35}{'COURSE':<12}{'SECTION':<10}{'GRADE':<8}REMARKS")
         print("-"*100)
+
+        #Using for loop display each student information
         for s in students:
             name=f"{s['last_name']}, {s['first_name']} {s['middle_name']}".strip()
             remarks="PASS" if s["grade"]>=75 else "FAIL"
+
             print(f"{s['id']:<12}{name:<35}{s['course']:<12}{s['section']:<10}{s['grade']:<8.2f}{remarks}")
+
     input("\nPress Enter to continue...")
 
+# Display the complete information of a selected student record.
 def display_student(student):
     print("="*55)
-    for k,v in [("Student ID",student["id"]),("Last Name",student["last_name"]),("First Name",student["first_name"]),("Middle Name",student["middle_name"]),("Course",student["course"]),("Section",student["section"]),("Final Grade",student["grade"])]:
+
+    # Display student details using key-value pairs
+    for k,v in [("Student ID",student["id"]),
+                ("Last Name",student["last_name"]),
+                ("First Name",student["first_name"]),
+                ("Middle Name",student["middle_name"]),
+                ("Course",student["course"]),
+                ("Section",student["section"]),
+                ("Final Grade",student["grade"])
+    ]:
+
         print(f"{k:<13}: {v}")
+
+    # Display academic remark based on final grade
     print(f"Remarks      : {'PASS' if student['grade']>=75 else 'FAIL'}")
     print("="*55)
 
+# Search for a student record using Student ID or Last Name.
 def search_student():
     c=input("[1] ID\n[2] Last Name\nChoice: ")
     found=False
+
+    # Search student by ID
     if c=="1":
         key=input("Enter Student ID: ").strip()
         for s in students:
             if s["id"]==key:
-                display_student(s); found=True; break
+                display_student(s)
+                found=True
+                break
+
+    # Search student by Last Name
     elif c=="2":
         key=input("Enter Last Name: ").strip().lower()
         for s in students:
             if s["last_name"].lower()==key:
-                display_student(s); found=True
+                display_student(s)
+                found=True
+
     if not found: print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
