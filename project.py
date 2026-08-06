@@ -278,27 +278,42 @@ def search_student():
 
 # Update existing student record using the Student ID.
 def update_student():
-    #Get the student ID of the record Upload.
-    sid=input("Enter Student ID: ").strip()
+    sid = input("Enter Student ID: ").strip()
 
-    #Search for the matching student record.
     for s in students:
-        if s["id"]==sid:
-            # Display student information before updating
+        if s["id"] == sid:
+            print("\nCurrent Student Record:")
             display_student(s)
-            #Update the student information using the valid input of this code.
-            s["last_name"]=validate_name("Last Name: ")
-            s["first_name"]=validate_name("First Name: ")
-            s["middle_name"]=validate_name("Middle Name (Optional): ",required=False)
-            s["course"]=validate_course()
-            s["section"]=validate_section()
-            s["grade"]=validate_grade()
 
-            print("Updated successfully.")
+            print("\nPress Enter to keep the current value.")
+
+            last = validate_name("Last Name: ", required=False)
+            if last != "":
+                s["last_name"] = last
+
+            first = validate_name("First Name: ", required=False)
+            if first != "":
+                s["first_name"] = first
+
+            middle = validate_name("Middle Name (Optional): ", required=False)
+            if middle != "":
+                s["middle_name"] = middle
+
+            course = input("Course: ").strip().upper()
+            if course != "":
+                s["course"] = course
+
+            section = input("Section: ").strip().upper()
+            if section != "":
+                s["section"] = section
+
+            s["grade"] = validate_grade()
+            print("\nFinal Grade is required.")
+
+            print("\nStudent record updated successfully!")
             input("\nPress Enter to continue...")
             return
 
-    # Display error message if no record matches the ID
     print("Student Record Not Found")
     input("\nPress Enter to continue...")
 
